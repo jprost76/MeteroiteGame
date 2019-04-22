@@ -22,3 +22,7 @@ int Meteorite::getPosX() const{
 int Meteorite::getPosY() const{
 	return posY;
 }
+
+void Meteorite::fall(){
+	posY = posY+1;
+}

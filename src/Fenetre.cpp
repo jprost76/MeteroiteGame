@@ -1,53 +1,52 @@
 #include "Fenetre.hpp"
+#include <ncurses.h>
 #include<iostream>
 
-Fenetre::Fenetre(){
-	//remplissage du centre du tableau
-	int i,j;
-		for (i=1;i<hauteur+1;i++) {
-			for (j=1;j<largeur+1;j++) {
-				tab[i][j]=' ';
-			}
-		}
-	//remplissage des bords
-	for (j=0;j<largeur+2;j++){
-		tab[0][j] = '=';
-		tab[hauteur+1][j] = '=';
-	}
-	for (i=1;i<hauteur+1;i++){
-		tab[i][0] = '|';
-		tab[i][largeur+1] = '|';
-	}
+Fenetre::Fenetre(int lignes, int colonnes){
+	initscr();
+	noecho();
+	boite = subwin(stdscr,lignes+2,colonnes+2,1,1);
+	box(boite,ACS_VLINE, ACS_HLINE);
+	Nlignes = lignes;
+	Ncolonnes = colonnes;
 };
 
 Fenetre::~Fenetre(){
+	endwin();
+	free(boite);
 };
 
-void Fenetre::addMeteorite(Meteorite m){
-	Meteorites.push_back(m);
-};
-
-void Fenetre::update(){
-	//remplissage du centre du tableau
-		int i,j,im,jm;
-			for (i=1;i<hauteur;i++) {
-				for (j=1;j<largeur;j++) {
-					tab[i][j]=' ';
-				}
-			}
-	for (std::vector<Meteorite>::iterator it = Meteorites.begin() ; it != Meteorites.end(); ++it){
-		im = it->getPosY() + 1; //décalage de 1 pour prendre en compte les bords
-		jm = it-> getPosX() +1;
-		tab[im][jm] = '*';
+Direction Fenetre::listen() {
+	char input;
+	Direction res = RIEN;
+	input = getch();
+	if( input=='q' )
+	{
+	   res = GAUCHE;
+	} else if (input == 'd' ) {
+		res = DROITE;
 	}
+	return res;
 }
 
-void Fenetre::afficher() const {
-	int i,j;
-	for (i=0;i<hauteur+2;i++) {
-		for (j=0;j<largeur+2;j++) {
-			std::cout<<tab[i][j];
+void Fenetre::afficherJeu(Jeu jeu)  {
+	int im, jm, ip,jp;
+	wclear(boite);
+	std::vector<Meteorite> Meteorites = jeu.getMeteorites();
+	//météorites
+	for (std::vector<Meteorite>::iterator it = Meteorites.begin() ; it != Meteorites.end(); ++it){
+			im = it->getPosY() ;
+			jm = it-> getPosX();
+			mvwprintw(boite,im,jm,"o");
 		}
-		std::cout<<std::endl;
-	}
+
+	//personnage
+	Personnage perso = jeu.getPersonnage();
+	ip = Nlignes;
+	jp = perso.getPos()+1;
+	box(boite,ACS_VLINE, ACS_HLINE);
+	mvwprintw(boite,ip,jp,"p");
+
+
+	wrefresh(boite);
 };

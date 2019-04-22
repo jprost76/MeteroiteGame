@@ -10,7 +10,7 @@ public:
 	Meteorite(int x_init, int s);
 	int getPosX() const;
 	int getPosY() const;
-	int fall();
+	void fall();
 };
 
 #endif
