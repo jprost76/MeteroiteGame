@@ -6,9 +6,9 @@
 #include <iostream>
 #include "Meteorite.hpp"
 
-Meteorite::Meteorite(int x_init, int s) {
+Meteorite::Meteorite(int x_init, int y_init,int s) {
 	posX = x_init;
-	posY = 0;
+	posY = y_init;
 	size = s;
 };
 

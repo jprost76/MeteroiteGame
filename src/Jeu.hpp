@@ -3,6 +3,7 @@
 #ifndef JEU_HPP
 #define JEU_HPP
 #include<vector>
+#include<list>
 #include <SDL2/SDL.h>
 #include "Meteorite.hpp"
 #include "Personnage.hpp"
@@ -12,7 +13,7 @@ class Jeu {
 private:
 	int hauteur;
 	int largeur;
-	std::vector<Meteorite> Meteorites;
+	std::list<Meteorite> Meteorites;
 	Personnage perso;
 
 public:
@@ -21,7 +22,7 @@ public:
 	bool loop();
 	int getHauteur() const;
 	int getLargeur() const;
-	std::vector<Meteorite> getMeteorites() const;
+	std::list<Meteorite> getMeteorites() const;
 	Personnage getPersonnage();
 	bool update(Direction dir);
 };

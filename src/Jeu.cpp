@@ -9,7 +9,7 @@ Jeu::Jeu(int h, int l){
 	hauteur = h;
 	largeur = l;
 	perso = Personnage(3,10,l);
-	Meteorite m1(10,1),m2(12,3);
+	Meteorite m1(3,0,1),m2(16,3,0);
 	Meteorites.push_back(m1);
 	Meteorites.push_back(m2);
 }
@@ -20,7 +20,7 @@ Jeu::~Jeu(){
 bool Jeu::loop(){
 	//
 	bool res = true;
-	for (std::vector<Meteorite>::iterator it = Meteorites.begin() ; it != Meteorites.end(); ++it){
+	for (std::list<Meteorite>::iterator it = Meteorites.begin() ; it != Meteorites.end(); ++it){
 			it->fall();
 			if (it->getPosY() > hauteur) {
 				res = false;
@@ -31,19 +31,23 @@ bool Jeu::loop(){
 
 bool Jeu::update(Direction dir){
 	bool res = true;
+	std::list<Meteorite>::iterator it;
+	
 	switch (dir) {
 	case DROITE: perso.deplacerDroite(); break;
 	case GAUCHE: perso.deplacerGauche(); break;
 	case RIEN:;break;
 	}
 	perso.move();
-	if (!Meteorites.empty()) {
-		for (std::vector<Meteorite>::iterator it = Meteorites.begin() ; it != Meteorites.end(); ++it){
-					it->fall();
-					if (it->getPosY() > hauteur) {
-						Meteorites.erase(it);
-					}
-				}
+	
+	it = Meteorites.begin() ;
+	while (it != Meteorites.end()) {
+		it->fall();
+		if (it->getPosY() > hauteur) {
+			Meteorites.erase(it++);
+		} else {
+			++it;
+		}
 	}
 	if (perso.estMort()) {
 		res = false;
@@ -59,7 +63,7 @@ int Jeu::getLargeur() const {
 	return largeur;
 }
 
-std::vector<Meteorite> Jeu::getMeteorites() const {
+std::list<Meteorite> Jeu::getMeteorites() const {
 	return Meteorites;
 }
 
