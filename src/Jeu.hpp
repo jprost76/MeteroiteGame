@@ -23,7 +23,6 @@ public:
 	int getLargeur() const;
 	std::vector<Meteorite> getMeteorites() const;
 	Personnage getPersonnage();
-	void handleEvent(SDL_Event& e);
 	bool update(Direction dir);
 };
 #endif

@@ -5,6 +5,7 @@
 Fenetre::Fenetre(int lignes, int colonnes){
 	initscr();
 	noecho();
+//on ajoute 2 lignes et 2 colonnes pour les bords
 	boite = subwin(stdscr,lignes+2,colonnes+2,1,1);
 	box(boite,ACS_VLINE, ACS_HLINE);
 	Nlignes = lignes;
@@ -34,11 +35,13 @@ void Fenetre::afficherJeu(Jeu jeu)  {
 	wclear(boite);
 	std::vector<Meteorite> Meteorites = jeu.getMeteorites();
 	//météorites
-	for (std::vector<Meteorite>::iterator it = Meteorites.begin() ; it != Meteorites.end(); ++it){
-			im = it->getPosY() ;
-			jm = it-> getPosX();
-			mvwprintw(boite,im,jm,"o");
-		}
+	if (!Meteorites.empty()) {
+		for (std::vector<Meteorite>::iterator it = Meteorites.begin() ; it != Meteorites.end(); ++it){
+				im = it->getPosY() ;
+				jm = it-> getPosX();
+				mvwprintw(boite,im,jm,"o");
+			}
+	}
 
 	//personnage
 	Personnage perso = jeu.getPersonnage();
