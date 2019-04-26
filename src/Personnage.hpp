@@ -19,6 +19,7 @@ public:
 	void deplacerDroite();
 	void finDeplacement();
 	int getPos();
+	int getVie();
 	void move();
 	bool estMort();
 };

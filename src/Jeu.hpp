@@ -15,6 +15,7 @@ private:
 	int largeur;
 	std::list<Meteorite> Meteorites;
 	Personnage perso;
+	int nloop;
 
 public:
 	Jeu(int h, int l);

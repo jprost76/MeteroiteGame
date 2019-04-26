@@ -1,33 +1,29 @@
 #include <iostream>
 #include <stdio.h>
+#include <stdlib.h>
 #include <ncurses.h>
+#include <time.h>
 #include "Meteorite.hpp"
 #include "Jeu.hpp"
 #include "Personnage.hpp"
 
 Jeu::Jeu(int h, int l){
+	//la position an absisse de la premieère méteorite
+	int xinit;
+	//initialisation du genarateur de nombre aléatoire
+	srand(time(NULL));
 	hauteur = h;
 	largeur = l;
 	perso = Personnage(3,10,l);
-	Meteorite m1(3,0,1),m2(16,3,0);
+	xinit = rand() % l;
+	Meteorite m1(xinit,0,1);
 	Meteorites.push_back(m1);
-	Meteorites.push_back(m2);
+	nloop = 0;
 }
 
 Jeu::~Jeu(){
 }
 
-bool Jeu::loop(){
-	//
-	bool res = true;
-	for (std::list<Meteorite>::iterator it = Meteorites.begin() ; it != Meteorites.end(); ++it){
-			it->fall();
-			if (it->getPosY() > hauteur) {
-				res = false;
-			}
-		}
-	return res;
-}
 
 bool Jeu::update(Direction dir){
 	bool res = true;
@@ -40,10 +36,20 @@ bool Jeu::update(Direction dir){
 	}
 	perso.move();
 	
+	//ajout de météorite
+	if (nloop % 10 == 0) {
+		Meteorite m(rand() % largeur,0,1);
+		Meteorites.push_back(m);
+	}
 	it = Meteorites.begin() ;
 	while (it != Meteorites.end()) {
 		it->fall();
-		if (it->getPosY() > hauteur) {
+		if (it->getPosY() == hauteur-1) {
+			if (it->getPosX() == perso.getPos()) {
+				perso.enleverVie();
+			}
+		}
+		if (it->getPosY() > hauteur-1) {
 			Meteorites.erase(it++);
 		} else {
 			++it;
@@ -52,6 +58,7 @@ bool Jeu::update(Direction dir){
 	if (perso.estMort()) {
 		res = false;
 	}
+	nloop++;
 	return res;
 }
 

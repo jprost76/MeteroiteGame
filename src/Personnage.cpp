@@ -29,6 +29,10 @@ int Personnage::getPos(){
 	return pos;
 }
 
+int Personnage::getVie(){
+	return vie;
+}
+
 void Personnage::deplacerGauche(){
 	vit -= VIT_PERSO;
 }
