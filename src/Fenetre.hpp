@@ -12,8 +12,10 @@ public:
 	~Fenetre();
 	void afficherJeu(Jeu jeu) ;
 	Direction listen();
+	void close();
 private:
-	WINDOW* boite;
+	WINDOW* fjeu;
+	WINDOW *fscore;
 	int Nlignes;
 	int Ncolonnes;
 };

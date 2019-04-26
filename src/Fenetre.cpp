@@ -5,17 +5,21 @@
 Fenetre::Fenetre(int lignes, int colonnes){
 	initscr();
 	noecho();
+// actualisation de la fenetre tous les 0.2 s
 	halfdelay(2);
 //on ajoute 2 lignes et 2 colonnes pour les bords
-	boite = subwin(stdscr,lignes+2,colonnes+2,1,1);
-	box(boite,ACS_VLINE, ACS_HLINE);
+	fjeu = subwin(stdscr,lignes+2,colonnes+2,1,1);
+	fscore = subwin(stdscr, 10,20,1,colonnes+4);
+	box(fjeu,ACS_VLINE, ACS_HLINE);
+	box(fscore,ACS_VLINE, ACS_HLINE);
 	Nlignes = lignes;
 	Ncolonnes = colonnes;
 };
 
 Fenetre::~Fenetre(){
 	endwin();
-	free(boite);
+	//free(fjeu);
+	//free(fscore);
 };
 
 Direction Fenetre::listen() {
@@ -33,14 +37,14 @@ Direction Fenetre::listen() {
 
 void Fenetre::afficherJeu(Jeu jeu)  {
 	int im, jm, ip,jp;
-	wclear(boite);
+	wclear(fjeu);
 	std::list<Meteorite> Meteorites = jeu.getMeteorites();
 	//météorites
 	if (!Meteorites.empty()) {
 		for (std::list<Meteorite>::iterator it = Meteorites.begin() ; it != Meteorites.end(); ++it){
 				im = it->getPosY() + 1 ;
 				jm = it-> getPosX() + 1 ;
-				mvwprintw(boite,im,jm,"o");
+				mvwprintw(fjeu,im,jm,"o");
 			}
 	}
 
@@ -48,9 +52,16 @@ void Fenetre::afficherJeu(Jeu jeu)  {
 	Personnage perso = jeu.getPersonnage();
 	ip = Nlignes;
 	jp = perso.getPos()+1;
-	box(boite,ACS_VLINE, ACS_HLINE);
-	mvwprintw(boite,ip,jp,"p");
+	box(fjeu,ACS_VLINE, ACS_HLINE);
+	mvwprintw(fjeu,ip,jp,"p");
 
+	//fenetre score
+	wclear(fscore);
+	mvwprintw(fscore,1,1,"%d vie",perso.getVie());
+	box(fscore,ACS_VLINE, ACS_HLINE);
 
-	wrefresh(boite);
+	wrefresh(fscore);
+	wrefresh(fjeu);
 };
+
+
