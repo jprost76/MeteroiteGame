@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ncurses.h>
+#include <chrono>
 #include <time.h>
 #include "Meteorite.hpp"
 #include "Jeu.hpp"
@@ -25,7 +26,7 @@ Jeu::~Jeu(){
 }
 
 
-bool Jeu::update(Direction dir){
+bool Jeu::update(Direction dir,std::chrono::milliseconds dt){
 	bool res = true;
 	std::list<Meteorite>::iterator it;
 	
@@ -43,8 +44,8 @@ bool Jeu::update(Direction dir){
 	}
 	it = Meteorites.begin() ;
 	while (it != Meteorites.end()) {
-		it->fall();
-		if (it->getPosY() == hauteur-1) {
+		it->fall(dt);
+		if ((int)(it->getPosY()) == hauteur-1) {
 			if (it->getPosX() == perso.getPos()) {
 				perso.enleverVie();
 			}

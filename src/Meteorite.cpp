@@ -4,22 +4,23 @@
 //============================================================================
 
 #include <iostream>
+#include<chrono>
 #include "Meteorite.hpp"
 
-Meteorite::Meteorite(int x_init, int y_init,int s) {
+Meteorite::Meteorite(int x_init, float y_init,float vit) {
 	posX = x_init;
 	posY = y_init;
-	size = s;
+	vitesse = vit;
 };
 
 int Meteorite::getPosX() const{
 	return posX;
 }
 
-int Meteorite::getPosY() const{
+float Meteorite::getPosY() const{
 	return posY;
 }
 
-void Meteorite::fall(){
-	posY = posY+1;
+void Meteorite::fall(std::chrono::milliseconds temps){
+	posY = posY+((float)temps*vitesse);
 }

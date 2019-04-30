@@ -1,16 +1,18 @@
 #ifndef COMPTE_HPP_
 #define COMPTE_HPP_
 
+#include<chrono>
+
 class Meteorite {
 private:
 	int posX;
-	int posY;
-	int size;
+	float posY;
+	float vitesse;
 public:
-	Meteorite(int x_init, int y_init, int s);
+	Meteorite(int x_init, float y_init, float vit);
 	int getPosX() const;
-	int getPosY() const;
-	void fall();
+	float getPosY() const;
+	void fall(std::chrono::milliseconds temps);
 };
 
 #endif

@@ -42,7 +42,7 @@ void Fenetre::afficherJeu(Jeu jeu)  {
 	//météorites
 	if (!Meteorites.empty()) {
 		for (std::list<Meteorite>::iterator it = Meteorites.begin() ; it != Meteorites.end(); ++it){
-				im = it->getPosY() + 1 ;
+				im = (int)(it->getPosY()) + 1 ;
 				jm = it-> getPosX() + 1 ;
 				mvwprintw(fjeu,im,jm,"o");
 			}

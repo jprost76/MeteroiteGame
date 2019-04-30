@@ -4,6 +4,7 @@
 #define JEU_HPP
 #include<vector>
 #include<list>
+#include <chrono>
 #include <SDL2/SDL.h>
 #include "Meteorite.hpp"
 #include "Personnage.hpp"
@@ -25,6 +26,6 @@ public:
 	int getLargeur() const;
 	std::list<Meteorite> getMeteorites() const;
 	Personnage getPersonnage();
-	bool update(Direction dir);
+	bool update(Direction dir, std::chrono::milliseconds dt);
 };
 #endif
